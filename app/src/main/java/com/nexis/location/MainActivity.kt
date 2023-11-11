@@ -42,7 +42,6 @@ class MainActivity : AppCompatActivity() {
         mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(OnMapReadyCallback {
             mMap = it
-            //  this
 
             val location1 = LatLng(40.4117832, 49.825815)
             mMap.addMarker(MarkerOptions().position(location1).title("Marker in Xutor"))
