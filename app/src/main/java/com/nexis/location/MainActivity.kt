@@ -20,6 +20,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.tasks.Task
 import com.nexis.location.databinding.ActivityMainBinding
+import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
 
@@ -34,21 +35,63 @@ class MainActivity : AppCompatActivity() {
     private lateinit var flpc: FusedLocationProviderClient
     private lateinit var locationTask: Task<Location>
 
+    var arrayloc = arrayListOf<String>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
-        mapFragment.getMapAsync(OnMapReadyCallback {
-            mMap = it
+//        mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+//        mapFragment.getMapAsync(OnMapReadyCallback {
+//            mMap = it
+//
+//            val location1 = LatLng(40.4117832, 49.825815)
+//            mMap.addMarker(MarkerOptions().position(location1).title("Marker in Xutor"))
+//            //mMap.moveCamera(CameraUpdateFactory.newLatLng(location1))
+//            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location1, 10f))
+//        })
 
-            val location1 = LatLng(40.4117832, 49.825815)
-            mMap.addMarker(MarkerOptions().position(location1).title("Marker in Xutor"))
-            //mMap.moveCamera(CameraUpdateFactory.newLatLng(location1))
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location1, 10f))
+
+        mapFragment = (supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?)!!
+
+        mapFragment?.getMapAsync(OnMapReadyCallback { googleMap ->
+            val mMap = googleMap
+            var lat = 40.4117832
+            var long = 49.825815
+
+            val min = 0.0
+            val max = 0.11000
+
+
+
+            for (i in 0..9) {
+                if (i > 10) {
+                    return@OnMapReadyCallback
+                } else {
+
+                    val randomDoubleInRange = Random.nextDouble(min, max)
+
+                    long = long + randomDoubleInRange
+
+                    arrayloc.add(long.toString())
+                }
+            }
+
+            for (i in 0..arrayloc.size-1) {
+
+                var log: Double = arrayloc[i].toDouble()
+
+                val location1 = LatLng(lat, log)
+                mMap.addMarker(MarkerOptions().position(location1).title("Marker in Xutor"))
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location1, 15f))
+            }
+
+
+//            val location2 = LatLng(40.4117845, 49.805815)
+//            mMap.addMarker(MarkerOptions().position(location2).title("Marker in Xutor"))
+//            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location2, 15f))
         })
-
 
         //flpc = LocationServices.getFusedLocationProviderClient(this)
 
