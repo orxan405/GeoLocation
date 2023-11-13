@@ -49,6 +49,7 @@ class MainActivity : AppCompatActivity() {
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location1, 10f))
         })
 
+
         //flpc = LocationServices.getFusedLocationProviderClient(this)
 
 
